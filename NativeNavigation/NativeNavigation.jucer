@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="NKEmyR" name="NativeNavigation" projectType="guiapp" version="1.0.0"
+              bundleIdentifier="com.codegarden.nativenavigation" includeBinaryInAppConfig="0"
+              jucerFormatVersion="1">
+  <MAINGROUP id="y4BUN6" name="NativeNavigation">
+    <GROUP id="{6443DA23-7FBD-FEF3-DBD3-60354AAFD595}" name="Builds">
+      <GROUP id="{8D23DCAB-217A-2055-CCF4-00A44BD8D2C8}" name="iOS">
+        <FILE id="rPZ0UW" name="DataController.cpp" compile="1" resource="0"
+              file="Builds/iOS/DataController.cpp"/>
+        <FILE id="t6Z0BI" name="DataController.h" compile="0" resource="0"
+              file="Builds/iOS/DataController.h"/>
+        <FILE id="LNbZ98" name="DataControllerObjC.h" compile="0" resource="0"
+              file="Builds/iOS/DataControllerObjC.h"/>
+        <FILE id="MOoYfY" name="DataControllerObjC.mm" compile="1" resource="0"
+              file="Builds/iOS/DataControllerObjC.mm"/>
+        <FILE id="uQsVoo" name="Info-App.plist" compile="0" resource="1" file="Builds/iOS/Info-App.plist"/>
+        <FILE id="YgNL0m" name="JuceViewController.swift" compile="1" resource="0"
+              file="Builds/iOS/JuceViewController.swift"/>
+        <FILE id="GzAUJh" name="LaunchScreen.storyboard" compile="0" resource="1"
+              file="Builds/iOS/LaunchScreen.storyboard"/>
+        <FILE id="p4syvq" name="MainWindow.h" compile="0" resource="0" file="Builds/iOS/MainWindow.h"/>
+        <FILE id="rUdpiS" name="MainWindow.mm" compile="1" resource="0" file="Builds/iOS/MainWindow.mm"/>
+        <FILE id="YxrsxT" name="MasterViewController.swift" compile="1" resource="0"
+              file="Builds/iOS/MasterViewController.swift"/>
+        <FILE id="ECnDy0" name="MasterViewController.xib" compile="0" resource="1"
+              file="Builds/iOS/MasterViewController.xib"/>
+        <FILE id="sW0hrX" name="Message.swift" compile="1" resource="0" file="Builds/iOS/Message.swift"/>
+      </GROUP>
+    </GROUP>
+    <GROUP id="{9C0B6AF2-3BCC-22CE-0F1A-6D614D7686DC}" name="src">
+      <FILE id="gaeErJ" name="Data.h" compile="0" resource="0" file="src/Data.h"/>
+      <FILE id="rn4BzY" name="Main.cpp" compile="1" resource="0" file="src/Main.cpp"/>
+      <FILE id="GbNbHz" name="MainComponent.cpp" compile="1" resource="0"
+            file="src/MainComponent.cpp"/>
+      <FILE id="TJueyc" name="MainComponent.h" compile="0" resource="0" file="src/MainComponent.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_IPHONE targetFolder="Builds/iOS" iosDevelopmentTeamID="NQ2VLM7NM7">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" iosCompatibility="default" isDebug="1" optimisation="1"
+                       targetName="NativeNavigation" customXcodeFlags="SWIFT_VERSION = 4.0,&#10;SWIFT_OBJC_BRIDGING_HEADER = NativeNavigation-Bridging-Header.h,&#10;SWIFT_PRECOMPILE_BRIDGING_HEADER = No"
+                       headerPath="$(SRCROOT)/../../src"/>
+        <CONFIGURATION name="Release" iosCompatibility="default" isDebug="0" optimisation="3"
+                       targetName="NativeNavigation" customXcodeFlags="SWIFT_VERSION = 4.0,&#10;SWIFT_OBJC_BRIDGING_HEADER = NativeNavigation-Bridging-Header.h,&#10;SWIFT_PRECOMPILE_BRIDGING_HEADER = No"
+                       headerPath="$(SRCROOT)/../../src"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../juce/modules"/>
+        <MODULEPATH id="juce_events" path="../../juce/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../juce/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../juce/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../juce/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../juce/modules"/>
+      </MODULEPATHS>
+    </XCODE_IPHONE>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+  <LIVE_SETTINGS>
+    <OSX enableCxx11="1"/>
+  </LIVE_SETTINGS>
+</JUCERPROJECT>

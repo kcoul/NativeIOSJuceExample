@@ -1,0 +1,8 @@
+JuceLibraryCode
+.DS_Store
+.idea
+cmake-build-*
+NativeNavigation/Builds/iOS/build
+NativeNavigation/Builds/iOS/NativeNavigation.xcodeproj
+NativeNavigation/Builds/iOS/NativeNavigation/Images.xcassets
+
