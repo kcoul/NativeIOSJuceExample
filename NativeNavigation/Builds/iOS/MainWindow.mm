@@ -7,9 +7,6 @@
 #include "MainWindow.h"
 #include "MainComponent.h"
 
-
-//-----------------------------------------------------------
-
 MainWindow::MainWindow (String name)  : DocumentWindow (name,
                                                         Colours::lightgrey,
                                                         DocumentWindow::allButtons)

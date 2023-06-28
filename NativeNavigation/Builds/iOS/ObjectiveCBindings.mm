@@ -43,7 +43,7 @@
     audioEngine.setLowpassCutoff (cutoff);
 }
 
-- (void) addWaveformComponentToView: (ViewType) viewToAttachTo            // 2
+- (void) addWaveformComponentToView: (ViewType) viewToAttachTo
 {
     CGSize size = viewToAttachTo.bounds.size;
     audioEngine.setWaveformComponentSize(size.width, size.height);
@@ -52,14 +52,14 @@
     audioEngine.addWaveformComponentToNativeParentView ((void*)CFBridgingRetain(viewToAttachTo));
 }
 
-- (void) removeWaveformComponentFromView                                // 2
+- (void) removeWaveformComponentFromView
 {
     audioEngine.removeWaveformComponentFromNativeParentView();
 }
 
-- (void) setPlaybackDidFinish: (Callback) callback      // 3
+- (void) setPlaybackDidFinish: (Callback) callback
 {
-    // Here we need to store the block/lambda in our Obj-C wrapper otherwise it will get deleted
+    //Need to store the block/lambda in our Obj-C wrapper otherwise it will get deleted
     self.playbackFinishedCallback = callback;
     audioEngine.setPlaybackFinishedCallback(callback);
 }

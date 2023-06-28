@@ -1,6 +1,5 @@
 #include "AudioEngine.h"
 
-// shamelessly copied from the AudioPlaybackDemo
 class ThumbnailComp  : public Component,
                            public ChangeListener,
                            public FileDragAndDropTarget,

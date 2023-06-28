@@ -38,9 +38,7 @@
 - (NSString*)getJsonData
 {
     const char* jsonCharPointer = wrapped->getJsonData();
-//    NSString* jsonDataString = [ NSString stringWithUTF8String: jsonCharPointer];
     NSString* jsonDataString = [ NSString stringWithFormat:@"%s", jsonCharPointer];
-//    NSLog(@"jsonDataString == %@",jsonDataString);
     return jsonDataString;
 }
 

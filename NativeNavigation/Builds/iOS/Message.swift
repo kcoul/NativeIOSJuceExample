@@ -1,11 +1,3 @@
-//
-//  Message.swift
-//  nativeNavigation
-//
-//  Created by Adam Elemental on 14/11/2015.
-//
-//
-
 class Message {
     
     var title: String?

@@ -62,7 +62,6 @@ public:
 
     String toJson() noexcept
     {
-        /** data convert to JSON **/
         Array<var> varItems;
 
         for (int i = 0; i < dataValueTree.getNumChildren(); ++i)

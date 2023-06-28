@@ -1,11 +1,3 @@
-//
-//  MasterViewController.swift
-//  JustTuner
-//
-//  Created by Adam Elemental on 15/09/2015.
-//
-//
-
 import UIKit
 
 class MasterViewController: UITableViewController,
