@@ -16,12 +16,29 @@ class MasterViewController: UITableViewController,
     
     var fileURL: URL?
     
+    var audioEngine: AudioEngineBindings
+    
+    required init?(coder aDecoder: NSCoder) {
+        
+        audioEngine = AudioEngineBindings()
+        super.init(coder: aDecoder)
+    }
+    
+    override init(style: UITableViewStyle) {
+        audioEngine = AudioEngineBindings()
+        super.init(style: style)
+    }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Messages"
         self.tableView.dataSource = self
         self.loadData()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.fileURL?.stopAccessingSecurityScopedResource()
     }
     
     override func didReceiveMemoryWarning() {
@@ -104,16 +121,12 @@ class MasterViewController: UITableViewController,
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         self.fileURL = url as URL
         print("import result : \(String(describing: fileURL))")
-        
-        let audioEngine = AudioEngineBindings()
-        
+                
         let result = self.fileURL?.startAccessingSecurityScopedResource() ?? false
         
         if (result) {
             audioEngine.play(fileURL?.absoluteString)
         }
-        
-        self.fileURL?.stopAccessingSecurityScopedResource()
     }
 
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {

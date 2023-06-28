@@ -279,8 +279,7 @@ struct AudioEngine::Pimpl   : private AudioIODeviceCallback, private TimeSliceTh
 
         currentLowpassCoefficients.store(lowpassCoefficientStorage.get());
 
-        fm.registerBasicFormats();
-        flacFormatManager.registerFormat(&flacAudioFormat, true);
+        formatManager.registerBasicFormats();
         startThread();
     }
 
@@ -296,21 +295,12 @@ struct AudioEngine::Pimpl   : private AudioIODeviceCallback, private TimeSliceTh
         URL fileToLoad(urlOfFileToPlay);
         std::unique_ptr<AudioFormatReader> reader;
         
-        if (fileToLoad.isLocalFile())
-        {
-            std::unique_ptr<juce::InputStream> inputStream(fileToLoad.createInputStream(false, nullptr, nullptr, juce::String(), 10000, nullptr, nullptr));
-            if (inputStream != nullptr)
-                reader.reset(flacFormatManager.createReaderFor(std::move(inputStream)));
-        }
-        else
-        {
-            juce::URL::ParameterHandling handling = juce::URL::ParameterHandling::inAddress;
-            juce::URL::InputStreamOptions options(handling);
-            std::unique_ptr<InputStream> urlStream(fileToLoad.createInputStream(options));
-            //std::unique_ptr<InputStream> urlStream(fileToLoad.createInputStream(false));
-            if (urlStream != nullptr)
-                reader.reset(fm.createReaderFor(std::move(urlStream)));
-        }
+        juce::URL::ParameterHandling handling = juce::URL::ParameterHandling::inAddress;
+        juce::URL::InputStreamOptions options(handling);
+        std::unique_ptr<InputStream> urlStream(fileToLoad.createInputStream(options));
+        
+        if (urlStream != nullptr)
+            reader.reset(formatManager.createReaderFor(std::move(urlStream)));
 
         if (reader != nullptr)
         {
@@ -321,11 +311,10 @@ struct AudioEngine::Pimpl   : private AudioIODeviceCallback, private TimeSliceTh
             transportSource.setSource(audioFile.get(), 48000, this, sampleRate, 2);
             transportSource.start();
 
-
             waveformComponent.setURL (fileToLoad);
 
-            dm.addAudioCallback(this);
-            dm.initialiseWithDefaultDevices(0, 2);
+            deviceManager.addAudioCallback(this);
+            deviceManager.initialiseWithDefaultDevices(0, 2);
         }
         else
         {
@@ -335,8 +324,8 @@ struct AudioEngine::Pimpl   : private AudioIODeviceCallback, private TimeSliceTh
 
     void stop()
     {
-        dm.closeAudioDevice();
-        dm.removeAudioCallback(this);
+        deviceManager.closeAudioDevice();
+        deviceManager.removeAudioCallback(this);
         transportSource.stop();
         transportSource.setSource(nullptr);
 
@@ -415,17 +404,15 @@ struct AudioEngine::Pimpl   : private AudioIODeviceCallback, private TimeSliceTh
         AudioSampleBuffer outputAudio(outputChannelData, 2, numSamples);
 
         transportSource.getNextAudioBlock(AudioSourceChannelInfo(outputAudio));
-        reverb.setParameters(reverbParams);
-
-        reverb.processStereo(outputChannelData[0], outputChannelData[1], numSamples);
-
-        auto* lowpassParams = currentLowpassCoefficients.exchange(nullptr);
-        *lowpass.state = *lowpassParams;
-        currentLowpassCoefficients.store(lowpassParams);
-
-        dsp::AudioBlock<float> outBlock(outputAudio);
-        dsp::ProcessContextReplacing<float> contextReplacing(outBlock);
-        lowpass.process(contextReplacing);
+        
+        //reverb.setParameters(reverbParams);
+        //reverb.processStereo(outputChannelData[0], outputChannelData[1], numSamples);
+        //auto* lowpassParams = currentLowpassCoefficients.exchange(nullptr);
+        //*lowpass.state = *lowpassParams;
+        //currentLowpassCoefficients.store(lowpassParams);
+        //dsp::AudioBlock<float> outBlock(outputAudio);
+        //dsp::ProcessContextReplacing<float> contextReplacing(outBlock);
+        //lowpass.process(contextReplacing);
 
         if (transportSource.hasStreamFinished())
             triggerAsyncUpdate();
@@ -453,13 +440,11 @@ struct AudioEngine::Pimpl   : private AudioIODeviceCallback, private TimeSliceTh
 
     bool playbackInitialised = false;
     std::function<void()> playbackFinishedCallback;
-    juce::AudioFormatManager flacFormatManager;
-    juce::FlacAudioFormat flacAudioFormat;
     
-    AudioFormatManager fm;
-    AudioDeviceManager dm;
+    AudioFormatManager formatManager;
+    AudioDeviceManager deviceManager;
     AudioTransportSource transportSource;
-    WaveformComponent waveformComponent {fm, transportSource};
+    WaveformComponent waveformComponent {formatManager, transportSource};
 
     AudioSampleBuffer scratchBuffer;
 
