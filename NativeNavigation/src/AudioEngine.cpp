@@ -280,6 +280,7 @@ struct AudioEngine::Pimpl   : private AudioIODeviceCallback, private TimeSliceTh
         currentLowpassCoefficients.store(lowpassCoefficientStorage.get());
 
         fm.registerBasicFormats();
+        flacFormatManager.registerFormat(&flacAudioFormat, true);
         startThread();
     }
 
@@ -294,10 +295,12 @@ struct AudioEngine::Pimpl   : private AudioIODeviceCallback, private TimeSliceTh
 
         URL fileToLoad(urlOfFileToPlay);
         std::unique_ptr<AudioFormatReader> reader;
-
+        
         if (fileToLoad.isLocalFile())
         {
-            reader.reset(fm.createReaderFor(fileToLoad.getLocalFile()));
+            std::unique_ptr<juce::InputStream> inputStream(fileToLoad.createInputStream(false, nullptr, nullptr, juce::String(), 10000, nullptr, nullptr));
+            if (inputStream != nullptr)
+                reader.reset(flacFormatManager.createReaderFor(std::move(inputStream)));
         }
         else
         {
@@ -450,6 +453,9 @@ struct AudioEngine::Pimpl   : private AudioIODeviceCallback, private TimeSliceTh
 
     bool playbackInitialised = false;
     std::function<void()> playbackFinishedCallback;
+    juce::AudioFormatManager flacFormatManager;
+    juce::FlacAudioFormat flacAudioFormat;
+    
     AudioFormatManager fm;
     AudioDeviceManager dm;
     AudioTransportSource transportSource;

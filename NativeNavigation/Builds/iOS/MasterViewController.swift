@@ -106,7 +106,14 @@ class MasterViewController: UITableViewController,
         print("import result : \(String(describing: fileURL))")
         
         let audioEngine = AudioEngineBindings()
-        audioEngine.play(fileURL?.absoluteString)
+        
+        let result = self.fileURL?.startAccessingSecurityScopedResource() ?? false
+        
+        if (result) {
+            audioEngine.play(fileURL?.absoluteString)
+        }
+        
+        self.fileURL?.stopAccessingSecurityScopedResource()
     }
 
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
