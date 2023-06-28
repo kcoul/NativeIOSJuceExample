@@ -8,12 +8,13 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController
+class MasterViewController: UITableViewController,
+                            UIDocumentPickerDelegate
 {
     @objc var juceViewController: JuceViewController?
     var messages = [Message]()
     
-
+    var fileURL: URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +75,15 @@ class MasterViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
+        let documentPicker: UIDocumentPickerViewController = UIDocumentPickerViewController(documentTypes: ["public.audio"], in: UIDocumentPickerMode.open)
+        
+        documentPicker.delegate = self
+        documentPicker.modalPresentationStyle = .formSheet
+        documentPicker.title = "Choose an audio file"
+        
+        self.present(documentPicker, animated: true, completion: nil)
+        
+        /*
         let message = messages[indexPath.row]
         let dataController = DataControllerObjC()
         
@@ -88,10 +98,21 @@ class MasterViewController: UITableViewController
         } else {
             self.navigationController?.pushViewController(juceViewController!, animated: true)
         }
-
+        */
     }
     
+    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+        self.fileURL = url as URL
+        print("import result : \(String(describing: fileURL))")
+        
+        let audioEngine = AudioEngineBindings()
+        audioEngine.play(fileURL?.absoluteString)
+    }
 
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        print("document picker was cancelled")
+        dismiss(animated: true, completion: nil)
+    }
     
 
 }
